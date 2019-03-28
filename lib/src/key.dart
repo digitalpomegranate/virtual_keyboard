@@ -1,7 +1,5 @@
 part of virtual_keyboard;
 
-
-
 /// Virtual Keyboard key
 class VirtualKeyboardKey {
   final String text;

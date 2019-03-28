@@ -1,11 +1,11 @@
 
 <br>
 <p align="center">
-<img style="height:350px;" alt="FlutterBlue" src="./screen1.png" />
+<img style="height:350px;" alt="FlutterBlue" src="https://github.com/gurgenDP/virtual_keyboard/blob/master/screen1.png?raw=true" />
 </p>
 <br>
 <p align="center">
-<img style="height:350px;" alt="FlutterBlue" src="./screen2.png" />
+<img style="height:350px;" alt="FlutterBlue" src="https://github.com/gurgenDP/virtual_keyboard/blob/master/screen2.png?raw=true" />
 </p>
 <hr>
 

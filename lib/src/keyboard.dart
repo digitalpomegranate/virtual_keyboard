@@ -1,7 +1,5 @@
 part of virtual_keyboard;
 
-
-
 /// The default keyboard height. Can we overriden by passing
 ///  `height` argument to `VirtualKeyboard` widget.
 const double _virtualKeyboardDefaultHeight = 300;
@@ -27,42 +25,30 @@ class VirtualKeyboard extends StatefulWidget {
   final Widget Function(BuildContext context, VirtualKeyboardKey key) builder;
 
   VirtualKeyboard(
-      {@required this.type,
+      {Key key,
+      @required this.type,
       @required this.onKeyPress,
       this.builder,
       this.height = _virtualKeyboardDefaultHeight,
       this.textColor = Colors.black,
-      this.fontSize = 14});
+      this.fontSize = 14})
+      : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
-    return _VirtualKeyboardState(
-        type: type,
-        onKeyPress: onKeyPress,
-        builder: builder,
-        height: height,
-        textColor: textColor,
-        fontSize: fontSize);
+    return _VirtualKeyboardState();
   }
 }
 
 /// Holds the state for Virtual Keyboard class.
 class _VirtualKeyboardState extends State<VirtualKeyboard> {
-  final VirtualKeyboardType type;
-  final Function onKeyPress;
+  VirtualKeyboardType type;
+  Function onKeyPress;
   // The builder function will be called for each Key object.
-  final Widget Function(BuildContext context, VirtualKeyboardKey key) builder;
-  final double height;
-  final Color textColor;
-  final double fontSize;
-
-  _VirtualKeyboardState(
-      {this.type,
-      this.onKeyPress,
-      this.height,
-      this.builder,
-      this.textColor,
-      this.fontSize});
+  Widget Function(BuildContext context, VirtualKeyboardKey key) builder;
+  double height;
+  Color textColor;
+  double fontSize;
 
   // Text Style for keys.
   TextStyle textStyle;
@@ -71,9 +57,32 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   bool isShiftEnabled = false;
 
   @override
+  void didUpdateWidget(Widget oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    setState(() {
+      type = widget.type;
+      onKeyPress = widget.onKeyPress;
+      height = widget.height;
+      textColor = widget.textColor;
+      fontSize = widget.fontSize;
+
+      // Init the Text Style for keys.
+      textStyle = TextStyle(
+        fontSize: fontSize,
+        color: textColor,
+      );
+    });
+  }
+
+  @override
   void initState() {
     super.initState();
 
+    type = widget.type;
+    onKeyPress = widget.onKeyPress;
+    height = widget.height;
+    textColor = widget.textColor;
+    fontSize = widget.fontSize;
     // Init the Text Style for keys.
     textStyle = TextStyle(
       fontSize: fontSize,

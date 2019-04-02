@@ -219,29 +219,32 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     switch (key.action) {
       case VirtualKeyboardKeyAction.Backspace:
         actionKey = GestureDetector(
-          onLongPress: () {
-            longPress = true;
-            // Start sending backspace key events while longPress is true
-            Timer.periodic(
-                Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud),
-                (timer) {
-              if (longPress) {
-                onKeyPress(key);
-              } else {
-                // Cancel timer.
-                timer.cancel();
-              }
-            });
-          },
-          onLongPressUp: () {
-            // Cancel event loop
-            longPress = false;
-          },
-          child: Icon(
-            Icons.backspace,
-            color: textColor,
-          ),
-        );
+            onLongPress: () {
+              longPress = true;
+              // Start sending backspace key events while longPress is true
+              Timer.periodic(
+                  Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud),
+                  (timer) {
+                if (longPress) {
+                  onKeyPress(key);
+                } else {
+                  // Cancel timer.
+                  timer.cancel();
+                }
+              });
+            },
+            onLongPressUp: () {
+              // Cancel event loop
+              longPress = false;
+            },
+            child: Container(
+              height: double.infinity,
+              width: double.infinity,
+              child: Icon(
+                Icons.backspace,
+                color: textColor,
+              ),
+            ));
         break;
       case VirtualKeyboardKeyAction.Shift:
         actionKey = Icon(Icons.arrow_upward, color: textColor);
@@ -260,21 +263,20 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     return Expanded(
       child: InkWell(
         onTap: () {
-          if (!alwaysCaps) {
-            if (key.action == VirtualKeyboardKeyAction.Shift) {
+          if (key.action == VirtualKeyboardKeyAction.Shift) {
+            if (!alwaysCaps) {
               setState(() {
                 isShiftEnabled = !isShiftEnabled;
               });
             }
-
-            onKeyPress(key);
           }
+
+          onKeyPress(key);
         },
         child: Container(
+          alignment: Alignment.center,
           height: height / _keyRows.length,
-          child: Center(
-            child: actionKey,
-          ),
+          child: actionKey,
         ),
       ),
     );

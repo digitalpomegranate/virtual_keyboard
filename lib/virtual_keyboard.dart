@@ -1,5 +1,6 @@
 library virtual_keyboard;
 
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 part './src/key_action.dart';

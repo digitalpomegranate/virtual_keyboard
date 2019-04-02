@@ -40,6 +40,10 @@ Color textColor;
 // Font size for keyboard keys.
 double fontSize;;
 ```
+```dart
+// Only Caps letters enabled.
+bool alwaysCaps;;
+```
 
 ### VirtualKeyboardType
 enum of Available Virtual Keyboard Types.

@@ -4,6 +4,8 @@ part of virtual_keyboard;
 ///  `height` argument to `VirtualKeyboard` widget.
 const double _virtualKeyboardDefaultHeight = 300;
 
+const int _virtualKeyboardBackspaceEventPerioud = 250;
+
 /// Virtual Keyboard widget.
 class VirtualKeyboard extends StatefulWidget {
   /// Keyboard Type: Should be inited in creation time.
@@ -18,11 +20,14 @@ class VirtualKeyboard extends StatefulWidget {
   /// Color for key texts and icons.
   final Color textColor;
 
-  // Font size for keyboard keys.
+  /// Font size for keyboard keys.
   final double fontSize;
 
-  // The builder function will be called for each Key object.
+  /// The builder function will be called for each Key object.
   final Widget Function(BuildContext context, VirtualKeyboardKey key) builder;
+
+  /// Set to true if you want only to show Caps letters.
+  final bool alwaysCaps;
 
   VirtualKeyboard(
       {Key key,
@@ -31,7 +36,8 @@ class VirtualKeyboard extends StatefulWidget {
       this.builder,
       this.height = _virtualKeyboardDefaultHeight,
       this.textColor = Colors.black,
-      this.fontSize = 14})
+      this.fontSize = 14,
+      this.alwaysCaps = false})
       : super(key: key);
 
   @override
@@ -49,7 +55,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   double height;
   Color textColor;
   double fontSize;
-
+  bool alwaysCaps;
   // Text Style for keys.
   TextStyle textStyle;
 
@@ -65,6 +71,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       height = widget.height;
       textColor = widget.textColor;
       fontSize = widget.fontSize;
+      alwaysCaps = widget.alwaysCaps;
 
       // Init the Text Style for keys.
       textStyle = TextStyle(
@@ -83,6 +90,8 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     height = widget.height;
     textColor = widget.textColor;
     fontSize = widget.fontSize;
+    alwaysCaps = widget.alwaysCaps;
+
     // Init the Text Style for keys.
     textStyle = TextStyle(
       fontSize: fontSize,
@@ -189,7 +198,9 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
         height: height / _keyRows.length,
         child: Center(
             child: Text(
-          isShiftEnabled ? key.capsText : key.text,
+          alwaysCaps
+              ? key.capsText
+              : (isShiftEnabled ? key.capsText : key.text),
           style: textStyle,
         )),
       ),
@@ -201,12 +212,35 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     // Holds the action key widget.
     Widget actionKey;
 
+    // True if long press is enabled.
+    bool longPress;
+
     // Switch the action type to build action Key widget.
     switch (key.action) {
       case VirtualKeyboardKeyAction.Backspace:
-        actionKey = Icon(
-          Icons.backspace,
-          color: textColor,
+        actionKey = GestureDetector(
+          onLongPress: () {
+            longPress = true;
+            // Start sending backspace key events while longPress is true
+            Timer.periodic(
+                Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud),
+                (timer) {
+              if (longPress) {
+                onKeyPress(key);
+              } else {
+                // Cancel timer.
+                timer.cancel();
+              }
+            });
+          },
+          onLongPressUp: () {
+            // Cancel event loop
+            longPress = false;
+          },
+          child: Icon(
+            Icons.backspace,
+            color: textColor,
+          ),
         );
         break;
       case VirtualKeyboardKeyAction.Shift:
@@ -226,13 +260,15 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     return Expanded(
       child: InkWell(
         onTap: () {
-          if (key.action == VirtualKeyboardKeyAction.Shift) {
-            setState(() {
-              isShiftEnabled = !isShiftEnabled;
-            });
-          }
+          if (!alwaysCaps) {
+            if (key.action == VirtualKeyboardKeyAction.Shift) {
+              setState(() {
+                isShiftEnabled = !isShiftEnabled;
+              });
+            }
 
-          onKeyPress(key);
+            onKeyPress(key);
+          }
         },
         child: Container(
           height: height / _keyRows.length,

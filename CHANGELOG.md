@@ -9,3 +9,7 @@
 ## [0.1.1] - 03/28/2019.
 
 * Fixed state update issue.
+
+## [0.1.2] - 03/01/2019.
+
+* Added alwaysCaps property and longPress for backspace.

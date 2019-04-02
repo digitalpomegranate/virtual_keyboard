@@ -13,3 +13,7 @@
 ## [0.1.2] - 03/01/2019.
 
 * Added alwaysCaps property and longPress for backspace.
+
+## [0.1.3] - 03/01/2019.
+
+* Fixed the bug with backspace key.

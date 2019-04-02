@@ -187,6 +187,9 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     return rows;
   }
 
+  // True if long press is enabled.
+  bool longPress;
+
   /// Creates default UI element for keyboard Key.
   Widget _keyboardDefaultKey(VirtualKeyboardKey key) {
     return Expanded(
@@ -211,9 +214,6 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   Widget _keyboardDefaultActionKey(VirtualKeyboardKey key) {
     // Holds the action key widget.
     Widget actionKey;
-
-    // True if long press is enabled.
-    bool longPress;
 
     // Switch the action type to build action Key widget.
     switch (key.action) {

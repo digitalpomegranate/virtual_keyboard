@@ -38,7 +38,8 @@ class VirtualKeyboard extends StatefulWidget {
       this.textColor = Colors.black,
       this.fontSize = 14,
       this.alwaysCaps = false})
-      : super(key: key);
+      : assert(type != null && onKeyPress != null),
+        super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -101,10 +102,31 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
 
   @override
   Widget build(BuildContext context) {
-    return type == VirtualKeyboardType.Numeric ? _numeric() : _alphanumeric();
+    switch (type) {
+      case VirtualKeyboardType.Alphanumeric:
+        return _alphanumeric();
+      case VirtualKeyboardType.Decimal:
+        return _decimal();
+      case VirtualKeyboardType.Numeric:
+        return _numeric();
+      default:
+        throw ArgumentError("Keyboard Type is null. Must specify");
+    }
   }
 
   Widget _alphanumeric() {
+    return Container(
+      height: height,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: _rows(),
+      ),
+    );
+  }
+
+  Widget _decimal() {
     return Container(
       height: height,
       width: MediaQuery.of(context).size.width,
@@ -134,7 +156,9 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     List<List<VirtualKeyboardKey>> keyboardRows =
         type == VirtualKeyboardType.Numeric
             ? _getKeyboardRowsNumeric()
-            : _getKeyboardRows();
+            : type == VirtualKeyboardType.Decimal
+                ? _getKeyboardRowsDecimal()
+                : _getKeyboardRows();
 
     // Generate keyboard row.
     List<Widget> rows = List.generate(keyboardRows.length, (int rowNum) {

@@ -84,6 +84,32 @@ const List<List> _keyRowsNumeric = [
   ],
   // Row 1
   const [
+    '0',
+  ],
+];
+
+/// Keys for Virtual Keyboard's rows.
+const List<List> _keyRowsDecimal = [
+  // Row 1
+  const [
+    '1',
+    '2',
+    '3',
+  ],
+  // Row 1
+  const [
+    '4',
+    '5',
+    '6',
+  ],
+  // Row 1
+  const [
+    '7',
+    '8',
+    '9',
+  ],
+  // Row 1
+  const [
     '.',
     '0',
   ],
@@ -95,6 +121,22 @@ List<VirtualKeyboardKey> _getKeyboardRowKeysNumeric(rowNum) {
   return List.generate(_keyRowsNumeric[rowNum].length, (int keyNum) {
     // Get key string value.
     String key = _keyRowsNumeric[rowNum][keyNum];
+
+    // Create and return new VirtualKeyboardKey object.
+    return VirtualKeyboardKey(
+      text: key,
+      capsText: key.toUpperCase(),
+      keyType: VirtualKeyboardKeyType.String,
+    );
+  });
+}
+
+/// Returns a list of `VirtualKeyboardKey` objects for Decimal keyboard.
+List<VirtualKeyboardKey> _getKeyboardRowKeysDecimal(rowNum) {
+  // Generate VirtualKeyboardKey objects for each row.
+  return List.generate(_keyRowsDecimal[rowNum].length, (int keyNum) {
+    // Get key string value.
+    String key = _keyRowsDecimal[rowNum][keyNum];
 
     // Create and return new VirtualKeyboardKey object.
     return VirtualKeyboardKey(
@@ -217,6 +259,34 @@ List<List<VirtualKeyboardKey>> _getKeyboardRowsNumeric() {
         break;
       default:
         rowKeys = _getKeyboardRowKeysNumeric(rowNum);
+    }
+
+    return rowKeys;
+  });
+}
+
+/// Returns a list of VirtualKeyboard rows with `VirtualKeyboardKey` objects.
+List<List<VirtualKeyboardKey>> _getKeyboardRowsDecimal() {
+  // Generate lists for each keyboard row.
+  return List.generate(_keyRowsNumeric.length, (int rowNum) {
+    // Will contain the keyboard row keys.
+    List<VirtualKeyboardKey> rowKeys = [];
+
+    // We have to add Action keys to keyboard.
+    switch (rowNum) {
+      case 3:
+        // String keys.
+        rowKeys.addAll(_getKeyboardRowKeysDecimal(rowNum));
+
+        // Right Shift
+        rowKeys.add(
+          VirtualKeyboardKey(
+              keyType: VirtualKeyboardKeyType.Action,
+              action: VirtualKeyboardKeyAction.Backspace),
+        );
+        break;
+      default:
+        rowKeys = _getKeyboardRowKeysDecimal(rowNum);
     }
 
     return rowKeys;

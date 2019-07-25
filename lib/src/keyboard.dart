@@ -38,7 +38,8 @@ class VirtualKeyboard extends StatefulWidget {
       this.textColor = Colors.black,
       this.fontSize = 14,
       this.alwaysCaps = false})
-      : super(key: key);
+      : assert(type != null && onKeyPress != null),
+        super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -101,10 +102,31 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
 
   @override
   Widget build(BuildContext context) {
-    return type == VirtualKeyboardType.Numeric ? _numeric() : _alphanumeric();
+    switch (type) {
+      case VirtualKeyboardType.Alphanumeric:
+        return _alphanumeric();
+      case VirtualKeyboardType.Decimal:
+        return _decimal();
+      case VirtualKeyboardType.Numeric:
+        return _numeric();
+      default: //won't get here
+        return _alphanumeric();
+    }
   }
 
   Widget _alphanumeric() {
+    return Container(
+      height: height,
+      width: MediaQuery.of(context).size.width,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: _rows(),
+      ),
+    );
+  }
+
+  Widget _decimal() {
     return Container(
       height: height,
       width: MediaQuery.of(context).size.width,
@@ -134,7 +156,9 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     List<List<VirtualKeyboardKey>> keyboardRows =
         type == VirtualKeyboardType.Numeric
             ? _getKeyboardRowsNumeric()
-            : _getKeyboardRows();
+            : type == VirtualKeyboardType.Decimal
+                ? _getKeyboardRowsDecimal()
+                : _getKeyboardRows();
 
     // Generate keyboard row.
     List<Widget> rows = List.generate(keyboardRows.length, (int rowNum) {
@@ -167,6 +191,8 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
                     // Draw action key.
                     keyWidget = _keyboardDefaultActionKey(virtualKeyboardKey);
                     break;
+                  case VirtualKeyboardKeyType.Blank:
+                    keyWidget = _keyboardBlankKey();
                 }
               } else {
                 // Call the builder function, so the user can specify custom UI for keys.
@@ -277,6 +303,18 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
           alignment: Alignment.center,
           height: height / _keyRows.length,
           child: actionKey,
+        ),
+      ),
+    );
+  }
+
+  /// Creates default UI element for blank keyboard Key
+  Widget _keyboardBlankKey() {
+    return Expanded(
+      child: InkWell(
+        child: Container(
+          alignment: Alignment.center,
+          height: height / _keyRows.length,
         ),
       ),
     );

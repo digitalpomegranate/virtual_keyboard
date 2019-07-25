@@ -109,8 +109,8 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
         return _decimal();
       case VirtualKeyboardType.Numeric:
         return _numeric();
-      default:
-        throw ArgumentError("Keyboard Type is null. Must specify");
+      default: //won't get here
+        return _alphanumeric();
     }
   }
 
@@ -191,6 +191,8 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
                     // Draw action key.
                     keyWidget = _keyboardDefaultActionKey(virtualKeyboardKey);
                     break;
+                  case VirtualKeyboardKeyType.Blank:
+                    keyWidget = _keyboardBlankKey();
                 }
               } else {
                 // Call the builder function, so the user can specify custom UI for keys.
@@ -301,6 +303,18 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
           alignment: Alignment.center,
           height: height / _keyRows.length,
           child: actionKey,
+        ),
+      ),
+    );
+  }
+
+  /// Creates default UI element for blank keyboard Key
+  Widget _keyboardBlankKey() {
+    return Expanded(
+      child: InkWell(
+        child: Container(
+          alignment: Alignment.center,
+          height: height / _keyRows.length,
         ),
       ),
     );

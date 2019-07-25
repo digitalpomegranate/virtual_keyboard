@@ -247,6 +247,7 @@ List<List<VirtualKeyboardKey>> _getKeyboardRowsNumeric() {
     // We have to add Action keys to keyboard.
     switch (rowNum) {
       case 3:
+        rowKeys.add(VirtualKeyboardKey(keyType: VirtualKeyboardKeyType.Blank));
         // String keys.
         rowKeys.addAll(_getKeyboardRowKeysNumeric(rowNum));
 

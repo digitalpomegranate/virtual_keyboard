@@ -29,6 +29,9 @@ class VirtualKeyboard extends StatefulWidget {
   /// Set to true if you want only to show Caps letters.
   final bool alwaysCaps;
 
+  /// Set to true to all Haptic feedback on Tap
+  final bool enableFeedback;
+
   VirtualKeyboard(
       {Key key,
       @required this.type,
@@ -37,7 +40,8 @@ class VirtualKeyboard extends StatefulWidget {
       this.height = _virtualKeyboardDefaultHeight,
       this.textColor = Colors.black,
       this.fontSize = 14,
-      this.alwaysCaps = false})
+      this.alwaysCaps = false,
+      this.enableFeedback = true})
       : super(key: key);
 
   @override
@@ -56,6 +60,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   Color textColor;
   double fontSize;
   bool alwaysCaps;
+  bool enableFeedback;
   // Text Style for keys.
   TextStyle textStyle;
 
@@ -72,6 +77,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       textColor = widget.textColor;
       fontSize = widget.fontSize;
       alwaysCaps = widget.alwaysCaps;
+      enableFeedback = widget.enableFeedback;
 
       // Init the Text Style for keys.
       textStyle = TextStyle(
@@ -91,6 +97,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     textColor = widget.textColor;
     fontSize = widget.fontSize;
     alwaysCaps = widget.alwaysCaps;
+    enableFeedback = widget.enableFeedback;
 
     // Init the Text Style for keys.
     textStyle = TextStyle(
@@ -131,10 +138,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   /// Returns the rows for keyboard.
   List<Widget> _rows() {
     // Get the keyboard Rows
-    List<List<VirtualKeyboardKey>> keyboardRows =
-        type == VirtualKeyboardType.Numeric
-            ? _getKeyboardRowsNumeric()
-            : _getKeyboardRows();
+    List<List<VirtualKeyboardKey>> keyboardRows = type == VirtualKeyboardType.Numeric ? _getKeyboardRowsNumeric() : _getKeyboardRows();
 
     // Generate keyboard row.
     List<Widget> rows = List.generate(keyboardRows.length, (int rowNum) {
@@ -148,8 +152,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             keyboardRows[rowNum].length,
             (int keyNum) {
               // Get the VirtualKeyboardKey object.
-              VirtualKeyboardKey virtualKeyboardKey =
-                  keyboardRows[rowNum][keyNum];
+              VirtualKeyboardKey virtualKeyboardKey = keyboardRows[rowNum][keyNum];
 
               Widget keyWidget;
 
@@ -194,16 +197,19 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   Widget _keyboardDefaultKey(VirtualKeyboardKey key) {
     return Expanded(
         child: InkWell(
+      enableFeedback: enableFeedback,
+      customBorder: CircleBorder(),
       onTap: () {
+        if (enableFeedback) {
+          HapticFeedback.selectionClick();
+        }
         onKeyPress(key);
       },
       child: Container(
         height: height / _keyRows.length,
         child: Center(
             child: Text(
-          alwaysCaps
-              ? key.capsText
-              : (isShiftEnabled ? key.capsText : key.text),
+          alwaysCaps ? key.capsText : (isShiftEnabled ? key.capsText : key.text),
           style: textStyle,
         )),
       ),
@@ -222,9 +228,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             onLongPress: () {
               longPress = true;
               // Start sending backspace key events while longPress is true
-              Timer.periodic(
-                  Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud),
-                  (timer) {
+              Timer.periodic(Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud), (timer) {
                 if (longPress) {
                   onKeyPress(key);
                 } else {
@@ -262,7 +266,12 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
 
     return Expanded(
       child: InkWell(
+        enableFeedback: enableFeedback,
+        customBorder: CircleBorder(),
         onTap: () {
+          if (enableFeedback) {
+            HapticFeedback.selectionClick();
+          }
           if (key.action == VirtualKeyboardKeyAction.Shift) {
             if (!alwaysCaps) {
               setState(() {

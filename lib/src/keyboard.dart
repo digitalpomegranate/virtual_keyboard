@@ -201,7 +201,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       customBorder: CircleBorder(),
       onTap: () {
         if (enableFeedback) {
-          HapticFeedback.selectionClick();
+          HapticFeedback.lightImpact();
         }
         onKeyPress(key);
       },
@@ -270,7 +270,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
         customBorder: CircleBorder(),
         onTap: () {
           if (enableFeedback) {
-            HapticFeedback.selectionClick();
+            HapticFeedback.lightImpact();
           }
           if (key.action == VirtualKeyboardKeyAction.Shift) {
             if (!alwaysCaps) {

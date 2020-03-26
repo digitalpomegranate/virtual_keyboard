@@ -26,6 +26,8 @@ class VirtualKeyboard extends StatefulWidget {
   /// The builder function will be called for each Key object.
   final Widget Function(BuildContext context, VirtualKeyboardKey key) builder;
 
+  final Widget Function(BuildContext context) backspaceImageBuilder;
+
   /// Set to true if you want only to show Caps letters.
   final bool alwaysCaps;
 
@@ -37,6 +39,7 @@ class VirtualKeyboard extends StatefulWidget {
       @required this.type,
       @required this.onKeyPress,
       this.builder,
+      this.backspaceImageBuilder,
       this.height = _virtualKeyboardDefaultHeight,
       this.textColor = Colors.black,
       this.fontSize = 14,
@@ -244,7 +247,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             child: Container(
               height: double.infinity,
               width: double.infinity,
-              child: Icon(
+              child: widget.backspaceImageBuilder != null ? widget.backspaceImageBuilder(context) : Icon(
                 Icons.backspace,
                 color: textColor,
               ),

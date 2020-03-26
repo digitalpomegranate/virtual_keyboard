@@ -1,6 +1,6 @@
 name: virtual_keyboard
 description: A simple package for dispaying virtual keyboards on a devices like kiosks and ATMs. The library is written in Dart and has no native code dependancy. 
-version: 0.1.4
+version: 0.1.5
 author: Gurgen Hovhannisyan <g.hovhannisyan@digitalpomegranate.com>
 homepage: https://github.com/gurgenDP/virtual_keyboard
 

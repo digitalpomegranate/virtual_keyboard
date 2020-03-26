@@ -196,7 +196,9 @@ List<List<VirtualKeyboardKey>> _getKeyboardRowsNumeric() {
 
         // Right Shift
         rowKeys.add(
-          VirtualKeyboardKey(text: "<", capsText: '<', keyType: VirtualKeyboardKeyType.String, action: VirtualKeyboardKeyAction.Backspace),
+          VirtualKeyboardKey(
+              keyType: VirtualKeyboardKeyType.Action,
+              action: VirtualKeyboardKeyAction.Backspace),
         );
         break;
       default:

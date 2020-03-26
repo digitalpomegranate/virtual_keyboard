@@ -247,10 +247,10 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             child: Container(
               height: double.infinity,
               width: double.infinity,
-              child: widget.backspaceImageBuilder != null ? widget.backspaceImageBuilder(context) : Icon(
+              child: Center(child: widget.backspaceImageBuilder != null ? widget.backspaceImageBuilder(context) : Icon(
                 Icons.backspace,
                 color: textColor,
-              ),
+              )),
             ));
         break;
       case VirtualKeyboardKeyAction.Shift:

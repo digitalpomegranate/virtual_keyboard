@@ -20,6 +20,9 @@ class VirtualKeyboard extends StatefulWidget {
   /// Color for key texts and icons.
   final Color textColor;
 
+  /// Color for the key ripple effect
+  final Color rippleColor;
+
   /// Font size for keyboard keys.
   final double fontSize;
 
@@ -42,6 +45,7 @@ class VirtualKeyboard extends StatefulWidget {
       this.backspaceImageBuilder,
       this.height = _virtualKeyboardDefaultHeight,
       this.textColor = Colors.black,
+      this.rippleColor = Colors.transparent,
       this.fontSize = 14,
       this.alwaysCaps = false,
       this.enableFeedback = true})
@@ -61,6 +65,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   Widget Function(BuildContext context, VirtualKeyboardKey key) builder;
   double height;
   Color textColor;
+  Color rippleColor;
   double fontSize;
   bool alwaysCaps;
   bool enableFeedback;
@@ -78,6 +83,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       onKeyPress = widget.onKeyPress;
       height = widget.height;
       textColor = widget.textColor;
+      rippleColor = widget.rippleColor;
       fontSize = widget.fontSize;
       alwaysCaps = widget.alwaysCaps;
       enableFeedback = widget.enableFeedback;
@@ -98,6 +104,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     onKeyPress = widget.onKeyPress;
     height = widget.height;
     textColor = widget.textColor;
+    rippleColor = widget.rippleColor;
     fontSize = widget.fontSize;
     alwaysCaps = widget.alwaysCaps;
     enableFeedback = widget.enableFeedback;
@@ -141,7 +148,10 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   /// Returns the rows for keyboard.
   List<Widget> _rows() {
     // Get the keyboard Rows
-    List<List<VirtualKeyboardKey>> keyboardRows = type == VirtualKeyboardType.Numeric ? _getKeyboardRowsNumeric() : _getKeyboardRows();
+    List<List<VirtualKeyboardKey>> keyboardRows =
+        type == VirtualKeyboardType.Numeric
+            ? _getKeyboardRowsNumeric()
+            : _getKeyboardRows();
 
     // Generate keyboard row.
     List<Widget> rows = List.generate(keyboardRows.length, (int rowNum) {
@@ -155,7 +165,8 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             keyboardRows[rowNum].length,
             (int keyNum) {
               // Get the VirtualKeyboardKey object.
-              VirtualKeyboardKey virtualKeyboardKey = keyboardRows[rowNum][keyNum];
+              VirtualKeyboardKey virtualKeyboardKey =
+                  keyboardRows[rowNum][keyNum];
 
               Widget keyWidget;
 
@@ -200,6 +211,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   Widget _keyboardDefaultKey(VirtualKeyboardKey key) {
     return Expanded(
         child: InkWell(
+      splashColor: rippleColor,
       enableFeedback: enableFeedback,
       customBorder: CircleBorder(),
       onTap: () {
@@ -212,7 +224,9 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
         height: height / _keyRows.length,
         child: Center(
             child: Text(
-          alwaysCaps ? key.capsText : (isShiftEnabled ? key.capsText : key.text),
+          alwaysCaps
+              ? key.capsText
+              : (isShiftEnabled ? key.capsText : key.text),
           style: textStyle,
         )),
       ),
@@ -231,7 +245,9 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             onLongPress: () {
               longPress = true;
               // Start sending backspace key events while longPress is true
-              Timer.periodic(Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud), (timer) {
+              Timer.periodic(
+                  Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud),
+                  (timer) {
                 if (longPress) {
                   onKeyPress(key);
                 } else {
@@ -247,10 +263,13 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             child: Container(
               height: double.infinity,
               width: double.infinity,
-              child: Center(child: widget.backspaceImageBuilder != null ? widget.backspaceImageBuilder(context) : Icon(
-                Icons.backspace,
-                color: textColor,
-              )),
+              child: Center(
+                  child: widget.backspaceImageBuilder != null
+                      ? widget.backspaceImageBuilder(context)
+                      : Icon(
+                          Icons.backspace,
+                          color: textColor,
+                        )),
             ));
         break;
       case VirtualKeyboardKeyAction.Shift:

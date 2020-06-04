@@ -67,6 +67,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     super.didUpdateWidget(oldWidget);
     setState(() {
       type = widget.type;
+      builder = widget.builder;
       onKeyPress = widget.onKeyPress;
       height = widget.height;
       textColor = widget.textColor;
@@ -86,6 +87,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     super.initState();
 
     type = widget.type;
+    builder = widget.builder;
     onKeyPress = widget.onKeyPress;
     height = widget.height;
     textColor = widget.textColor;

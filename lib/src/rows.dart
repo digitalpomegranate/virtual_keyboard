@@ -84,7 +84,7 @@ const List<List> _keyRowsNumeric = [
   ],
   // Row 1
   const [
-    '.',
+    '',
     '0',
   ],
 ];

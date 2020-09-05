@@ -28,6 +28,9 @@ class VirtualKeyboard extends StatefulWidget {
 
   /// Set to true if you want only to show Caps letters.
   final bool alwaysCaps;
+  
+  /// Font Family for keyboard keys
+  final String fontFamily;
 
   VirtualKeyboard(
       {Key key,
@@ -37,7 +40,8 @@ class VirtualKeyboard extends StatefulWidget {
       this.height = _virtualKeyboardDefaultHeight,
       this.textColor = Colors.black,
       this.fontSize = 14,
-      this.alwaysCaps = false})
+      this.alwaysCaps = false,
+      this.fontFamily = "Roboto",})
       : super(key: key);
 
   @override
@@ -56,6 +60,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   Color textColor;
   double fontSize;
   bool alwaysCaps;
+  String fontFamily;
   // Text Style for keys.
   TextStyle textStyle;
 
@@ -72,11 +77,13 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       textColor = widget.textColor;
       fontSize = widget.fontSize;
       alwaysCaps = widget.alwaysCaps;
+      fontFamily = widget.fontFamily;
 
       // Init the Text Style for keys.
       textStyle = TextStyle(
         fontSize: fontSize,
         color: textColor,
+        fontFamily: fontFamily,
       );
     });
   }
@@ -91,11 +98,13 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     textColor = widget.textColor;
     fontSize = widget.fontSize;
     alwaysCaps = widget.alwaysCaps;
+    fontFamily = widget.fontFamily;
 
     // Init the Text Style for keys.
     textStyle = TextStyle(
       fontSize: fontSize,
       color: textColor,
+      fontFamily: fontFamily,
     );
   }
 

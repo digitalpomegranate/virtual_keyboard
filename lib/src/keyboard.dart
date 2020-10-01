@@ -20,6 +20,9 @@ class VirtualKeyboard extends StatefulWidget {
   /// Color for key texts and icons.
   final Color textColor;
 
+// for changing text Style of the key
+  final TextStyle textStyle;
+
   /// Font size for keyboard keys.
   final double fontSize;
 
@@ -29,16 +32,17 @@ class VirtualKeyboard extends StatefulWidget {
   /// Set to true if you want only to show Caps letters.
   final bool alwaysCaps;
 
-  VirtualKeyboard(
-      {Key key,
-      @required this.type,
-      @required this.onKeyPress,
-      this.builder,
-      this.height = _virtualKeyboardDefaultHeight,
-      this.textColor = Colors.black,
-      this.fontSize = 14,
-      this.alwaysCaps = false})
-      : super(key: key);
+  VirtualKeyboard({
+    Key key,
+    @required this.type,
+    @required this.onKeyPress,
+    this.builder,
+    this.height = _virtualKeyboardDefaultHeight,
+    this.textColor = Colors.black,
+    this.fontSize = 14,
+    this.alwaysCaps = false,
+    this.textStyle,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -78,6 +82,11 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
         fontSize: fontSize,
         color: textColor,
       );
+
+//  the text style will be taken if it have value
+      if (widget.textStyle != null) {
+        textStyle = widget.textStyle;
+      }
     });
   }
 

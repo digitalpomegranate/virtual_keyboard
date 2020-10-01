@@ -67,12 +67,13 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               color: Colors.deepPurple,
               child: VirtualKeyboard(
+                textStyle: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   height: 300,
                   textColor: Colors.white,
                   type: isNumericMode
                       ? VirtualKeyboardType.Numeric
                       : VirtualKeyboardType.Alphanumeric,
-                  onKeyPress: _onKeyPress),
+                  onKeyPress: _onKeyPress,),
             )
           ],
         ),

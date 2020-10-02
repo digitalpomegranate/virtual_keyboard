@@ -20,8 +20,16 @@ class VirtualKeyboard extends StatefulWidget {
   /// Color for key texts and icons.
   final Color textColor;
 
+// for changing text Style of the key
+  final TextStyle textStyle;
+
   /// Font size for keyboard keys.
   final double fontSize;
+
+  // keyboard color
+  final Color keyboardColor;
+
+  final Decoration customNumericKeyDecoration;
 
   /// The builder function will be called for each Key object.
   final Widget Function(BuildContext context, VirtualKeyboardKey key) builder;
@@ -29,16 +37,19 @@ class VirtualKeyboard extends StatefulWidget {
   /// Set to true if you want only to show Caps letters.
   final bool alwaysCaps;
 
-  VirtualKeyboard(
-      {Key key,
-      @required this.type,
-      @required this.onKeyPress,
-      this.builder,
-      this.height = _virtualKeyboardDefaultHeight,
-      this.textColor = Colors.black,
-      this.fontSize = 14,
-      this.alwaysCaps = false})
-      : super(key: key);
+  VirtualKeyboard({
+    Key key,
+    @required this.type,
+    @required this.onKeyPress,
+    this.builder,
+    this.height = _virtualKeyboardDefaultHeight,
+    this.textColor = Colors.black,
+    this.fontSize = 14,
+    this.alwaysCaps = false,
+    this.textStyle,
+    this.keyboardColor,
+    this.customNumericKeyDecoration,
+  }) : super(key: key);
 
   @override
   State<StatefulWidget> createState() {
@@ -78,6 +89,11 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
         fontSize: fontSize,
         color: textColor,
       );
+
+//  the text style will be taken if it have value
+      if (widget.textStyle != null) {
+        textStyle = widget.textStyle;
+      }
     });
   }
 
@@ -97,6 +113,11 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       fontSize: fontSize,
       color: textColor,
     );
+
+    //  the text style will be taken if it have value
+    if (widget.textStyle != null) {
+      textStyle = widget.textStyle;
+    }
   }
 
   @override
@@ -108,6 +129,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     return Container(
       height: height,
       width: MediaQuery.of(context).size.width,
+      color: widget.keyboardColor,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -119,6 +141,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   Widget _numeric() {
     return Container(
       height: height,
+      color: widget.keyboardColor,
       width: MediaQuery.of(context).size.width,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -198,7 +221,9 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
         onKeyPress(key);
       },
       child: Container(
+         margin: widget.type.index == 1 ? EdgeInsets.all(0) : EdgeInsets.all(5),
         height: height / _keyRows.length,
+        decoration: widget.type.index == 1 ? null : widget.customNumericKeyDecoration,
         child: Center(
             child: Text(
           alwaysCaps
@@ -240,6 +265,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
             child: Container(
               height: double.infinity,
               width: double.infinity,
+              decoration: widget.type.index == 1 ? null : widget.customNumericKeyDecoration,
               child: Icon(
                 Icons.backspace,
                 color: textColor,

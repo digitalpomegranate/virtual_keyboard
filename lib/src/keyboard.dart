@@ -90,12 +90,11 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       enableFeedback = widget.enableFeedback;
 
       // Init the Text Style for keys.
-      textStyle = widget.customStyle != null
-          ? widget.customStyle
-          : TextStyle(
-              fontSize: fontSize,
-              color: textColor,
-            );
+      textStyle = widget.customStyle ??
+          TextStyle(
+            fontSize: fontSize,
+            color: textColor,
+          );
     });
   }
 

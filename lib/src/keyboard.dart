@@ -36,7 +36,7 @@ class VirtualKeyboard extends StatefulWidget {
 
   /// Set to true to all Haptic feedback on Tap
   final bool enableFeedback;
-
+  final TextStyle customStyle;
   VirtualKeyboard(
       {Key key,
       @required this.type,
@@ -48,7 +48,8 @@ class VirtualKeyboard extends StatefulWidget {
       this.rippleColor = Colors.transparent,
       this.fontSize = 14,
       this.alwaysCaps = false,
-      this.enableFeedback = true})
+      this.enableFeedback = true,
+      this.customStyle})
       : super(key: key);
 
   @override
@@ -89,10 +90,11 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       enableFeedback = widget.enableFeedback;
 
       // Init the Text Style for keys.
-      textStyle = TextStyle(
-        fontSize: fontSize,
-        color: textColor,
-      );
+      textStyle = widget.customStyle ??
+          TextStyle(
+            fontSize: fontSize,
+            color: textColor,
+          );
     });
   }
 

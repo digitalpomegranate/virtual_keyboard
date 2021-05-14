@@ -1,3 +1,4 @@
+// @dart=2.9
 part of virtual_keyboard;
 
 /// The default keyboard height. Can we overriden by passing

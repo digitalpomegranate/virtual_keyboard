@@ -1,3 +1,4 @@
+// @dart=2.9
 part of virtual_keyboard;
 
 /// Keys for Virtual Keyboard's rows.
@@ -136,7 +137,9 @@ List<List<VirtualKeyboardKey>> _getKeyboardRows() {
 
         // 'Backspace' button.
         rowKeys.add(
-          VirtualKeyboardKey(keyType: VirtualKeyboardKeyType.Action, action: VirtualKeyboardKeyAction.Backspace),
+          VirtualKeyboardKey(
+              keyType: VirtualKeyboardKeyType.Action,
+              action: VirtualKeyboardKeyAction.Backspace),
         );
         break;
       case 2:
@@ -145,13 +148,19 @@ List<List<VirtualKeyboardKey>> _getKeyboardRows() {
 
         // 'Return' button.
         rowKeys.add(
-          VirtualKeyboardKey(keyType: VirtualKeyboardKeyType.Action, action: VirtualKeyboardKeyAction.Return, text: '\n', capsText: '\n'),
+          VirtualKeyboardKey(
+              keyType: VirtualKeyboardKeyType.Action,
+              action: VirtualKeyboardKeyAction.Return,
+              text: '\n',
+              capsText: '\n'),
         );
         break;
       case 3:
         // Left Shift
         rowKeys.add(
-          VirtualKeyboardKey(keyType: VirtualKeyboardKeyType.Action, action: VirtualKeyboardKeyAction.Shift),
+          VirtualKeyboardKey(
+              keyType: VirtualKeyboardKeyType.Action,
+              action: VirtualKeyboardKeyAction.Shift),
         );
 
         // String keys.
@@ -159,7 +168,9 @@ List<List<VirtualKeyboardKey>> _getKeyboardRows() {
 
         // Right Shift
         rowKeys.add(
-          VirtualKeyboardKey(keyType: VirtualKeyboardKeyType.Action, action: VirtualKeyboardKeyAction.Shift),
+          VirtualKeyboardKey(
+              keyType: VirtualKeyboardKeyType.Action,
+              action: VirtualKeyboardKeyAction.Shift),
         );
         break;
       case 4:
@@ -169,7 +180,11 @@ List<List<VirtualKeyboardKey>> _getKeyboardRows() {
         // Insert the space key into second position of row.
         rowKeys.insert(
           1,
-          VirtualKeyboardKey(keyType: VirtualKeyboardKeyType.Action, text: ' ', capsText: ' ', action: VirtualKeyboardKeyAction.Space),
+          VirtualKeyboardKey(
+              keyType: VirtualKeyboardKeyType.Action,
+              text: ' ',
+              capsText: ' ',
+              action: VirtualKeyboardKeyAction.Space),
         );
 
         break;

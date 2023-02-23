@@ -29,6 +29,9 @@ class VirtualKeyboard extends StatefulWidget {
   /// Set to true if you want only to show Caps letters.
   final bool alwaysCaps;
 
+  /// used to place either a . (period) or a 00 (double zero) in the lower left key.
+  final NumberLowerLeftKeyType lowerLeftKeyType;
+
   VirtualKeyboard(
       {Key key,
       @required this.type,
@@ -37,7 +40,8 @@ class VirtualKeyboard extends StatefulWidget {
       this.height = _virtualKeyboardDefaultHeight,
       this.textColor = Colors.black,
       this.fontSize = 14,
-      this.alwaysCaps = false})
+      this.alwaysCaps = false,
+      this.lowerLeftKeyType = NumberLowerLeftKeyType.Period})
       : super(key: key);
 
   @override
@@ -62,6 +66,8 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
   // True if shift is enabled.
   bool isShiftEnabled = false;
 
+  NumberLowerLeftKeyType lowerLeftKeyType;
+
   @override
   void didUpdateWidget(Widget oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -72,6 +78,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       textColor = widget.textColor;
       fontSize = widget.fontSize;
       alwaysCaps = widget.alwaysCaps;
+      lowerLeftKeyType = widget.lowerLeftKeyType;
 
       // Init the Text Style for keys.
       textStyle = TextStyle(
@@ -91,6 +98,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     textColor = widget.textColor;
     fontSize = widget.fontSize;
     alwaysCaps = widget.alwaysCaps;
+    lowerLeftKeyType = widget.lowerLeftKeyType;
 
     // Init the Text Style for keys.
     textStyle = TextStyle(
@@ -133,7 +141,7 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     // Get the keyboard Rows
     List<List<VirtualKeyboardKey>> keyboardRows =
         type == VirtualKeyboardType.Numeric
-            ? _getKeyboardRowsNumeric()
+            ? _getKeyboardRowsNumeric(lowerLeftKeyType)
             : _getKeyboardRows();
 
     // Generate keyboard row.

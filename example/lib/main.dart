@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             Text(
               text,
-              style: Theme.of(context).textTheme.display1,
+              style: Theme.of(context).textTheme.displayLarge,
             ),
             SwitchListTile(
               title: Text(
@@ -72,7 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   type: isNumericMode
                       ? VirtualKeyboardType.Numeric
                       : VirtualKeyboardType.Alphanumeric,
-                  onKeyPress: _onKeyPress),
+                  onKeyPress: _onKeyPress,
+                  lowerLeftKeyType: NumberLowerLeftKeyType.DoubleZero),
             )
           ],
         ),

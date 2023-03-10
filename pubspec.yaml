@@ -5,7 +5,7 @@ author: Gurgen Hovhannisyan <g.hovhannisyan@digitalpomegranate.com>
 homepage: https://github.com/gurgenDP/virtual_keyboard
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
   flutter:

@@ -62,8 +62,8 @@ const List<List> _keyRows = [
   ]
 ];
 
-/// Keys for Virtual Keyboard's rows.
-const List<List> _keyRowsNumeric = [
+/// Keys for Virtual Keyboard's rows with a period in the lower left row.
+const List<List> _keyRowsNumericPeriod = [
   // Row 1
   const [
     '1',
@@ -89,20 +89,64 @@ const List<List> _keyRowsNumeric = [
   ],
 ];
 
-/// Returns a list of `VirtualKeyboardKey` objects for Numeric keyboard.
-List<VirtualKeyboardKey> _getKeyboardRowKeysNumeric(rowNum) {
-  // Generate VirtualKeyboardKey objects for each row.
-  return List.generate(_keyRowsNumeric[rowNum].length, (int keyNum) {
-    // Get key string value.
-    String key = _keyRowsNumeric[rowNum][keyNum];
+/// Keys for Virtual Keyboard's rows with a double zeros in the lower left row.
+const List<List> _keyRowsNumericDoubleZero = [
+  // Row 1
+  const [
+    '1',
+    '2',
+    '3',
+  ],
+  // Row 1
+  const [
+    '4',
+    '5',
+    '6',
+  ],
+  // Row 1
+  const [
+    '7',
+    '8',
+    '9',
+  ],
+  // Row 1
+  const [
+    '00',
+    '0',
+  ],
+];
 
-    // Create and return new VirtualKeyboardKey object.
-    return VirtualKeyboardKey(
-      text: key,
-      capsText: key.toUpperCase(),
-      keyType: VirtualKeyboardKeyType.String,
-    );
-  });
+
+/// Returns a list of `VirtualKeyboardKey` objects for Numeric keyboard.
+List<VirtualKeyboardKey> _getKeyboardRowKeysNumeric(int rowNum, NumberLowerLeftKeyType lowerLeftKeyType) {
+  // Generate VirtualKeyboardKey objects for each row.
+
+  switch (lowerLeftKeyType) {
+    case NumberLowerLeftKeyType.Period:
+      return List.generate(_keyRowsNumericPeriod[rowNum].length, (int keyNum) {
+        // Get key string value.
+        String key = _keyRowsNumericPeriod[rowNum][keyNum];
+
+        // Create and return new VirtualKeyboardKey object.
+        return VirtualKeyboardKey(
+          text: key,
+          capsText: key.toUpperCase(),
+          keyType: VirtualKeyboardKeyType.String,
+        );
+      });
+    case NumberLowerLeftKeyType.DoubleZero:
+      return List.generate(_keyRowsNumericDoubleZero[rowNum].length, (int keyNum) {
+        // Get key string value.
+        String key = _keyRowsNumericDoubleZero[rowNum][keyNum];
+
+        // Create and return new VirtualKeyboardKey object.
+        return VirtualKeyboardKey(
+          text: key,
+          capsText: key.toUpperCase(),
+          keyType: VirtualKeyboardKeyType.String,
+        );
+      });
+  }
 }
 
 /// Returns a list of `VirtualKeyboardKey` objects.
@@ -195,10 +239,19 @@ List<List<VirtualKeyboardKey>> _getKeyboardRows() {
   });
 }
 
+int _listNumericLength(NumberLowerLeftKeyType lowerLeftKeyType) {
+  switch (lowerLeftKeyType) {
+    case NumberLowerLeftKeyType.Period:
+      return _keyRowsNumericPeriod.length;
+    case NumberLowerLeftKeyType.DoubleZero:
+      return _keyRowsNumericDoubleZero.length;
+  }
+}
+
 /// Returns a list of VirtualKeyboard rows with `VirtualKeyboardKey` objects.
-List<List<VirtualKeyboardKey>> _getKeyboardRowsNumeric() {
+List<List<VirtualKeyboardKey>> _getKeyboardRowsNumeric(NumberLowerLeftKeyType lowerLeftKeyType) {
   // Generate lists for each keyboard row.
-  return List.generate(_keyRowsNumeric.length, (int rowNum) {
+  return List.generate(_listNumericLength(lowerLeftKeyType), (int rowNum) {
     // Will contain the keyboard row keys.
     List<VirtualKeyboardKey> rowKeys = [];
 
@@ -206,7 +259,7 @@ List<List<VirtualKeyboardKey>> _getKeyboardRowsNumeric() {
     switch (rowNum) {
       case 3:
         // String keys.
-        rowKeys.addAll(_getKeyboardRowKeysNumeric(rowNum));
+        rowKeys.addAll(_getKeyboardRowKeysNumeric(rowNum, lowerLeftKeyType));
 
         // Right Shift
         rowKeys.add(
@@ -216,7 +269,7 @@ List<List<VirtualKeyboardKey>> _getKeyboardRowsNumeric() {
         );
         break;
       default:
-        rowKeys = _getKeyboardRowKeysNumeric(rowNum);
+        rowKeys = _getKeyboardRowKeysNumeric(rowNum, lowerLeftKeyType);
     }
 
     return rowKeys;

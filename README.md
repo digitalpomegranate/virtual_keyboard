@@ -127,6 +127,21 @@ Container(
           )
 ```
 
+#### Show Numeric keyboard with default view (And a Double Zero lower left key)
+```dart
+Container(
+            // Keyboard is transparent
+            color: Colors.red,
+            child: VirtualKeyboard(
+                // [0-9] + .
+                type: VirtualKeyboardType.Numeric,
+                // Callback for key press event
+                onKeyPress: (key) => print(key.text),
+                lowerLeftKeyType: NumberLowerLeftKeyType.DoubleZero)
+            ),
+          )
+```
+
 #### Show Alphanumeric keyboard with customized keys
 
 ```dart

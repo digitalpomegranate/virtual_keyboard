@@ -222,10 +222,10 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       shape: CircleBorder(),
       elevation: 2,
       color: Colors.white,
-      child: GestureDetector(
-        // splashColor: rippleColor,
-        // enableFeedback: enableFeedback,
-        // customBorder: CircleBorder(),
+      child: InkWell(
+        splashColor: Colors.transparent,
+        enableFeedback: enableFeedback,
+        customBorder: CircleBorder(),
         onTap: () {
           if (enableFeedback) {
             HapticFeedback.lightImpact();
@@ -305,28 +305,29 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     }
 
     return Expanded(
-      child: GestureDetector(
-        // enableFeedback: enableFeedback,
-        // customBorder: CircleBorder(),
-        onTap: () {
-          if (enableFeedback) {
-            HapticFeedback.lightImpact();
-          }
-          if (key.action == VirtualKeyboardKeyAction.Shift) {
-            if (!alwaysCaps) {
-              setState(() {
-                isShiftEnabled = !isShiftEnabled;
-              });
+      child: Card(
+        surfaceTintColor: Colors.white,
+        shape: CircleBorder(),
+        elevation: 2,
+        color: Colors.white,
+        child: InkWell(
+          enableFeedback: enableFeedback,
+          customBorder: CircleBorder(),
+          splashColor: Colors.transparent,
+          onTap: () {
+            if (enableFeedback) {
+              HapticFeedback.lightImpact();
             }
-          }
+            if (key.action == VirtualKeyboardKeyAction.Shift) {
+              if (!alwaysCaps) {
+                setState(() {
+                  isShiftEnabled = !isShiftEnabled;
+                });
+              }
+            }
 
-          onKeyPress(key);
-        },
-        child: Card(
-          surfaceTintColor: Colors.white,
-          shape: CircleBorder(),
-          elevation: 2,
-          color: Colors.white,
+            onKeyPress(key);
+          },
           child: Container(
             alignment: Alignment.center,
             height: height / _keyRows.length,

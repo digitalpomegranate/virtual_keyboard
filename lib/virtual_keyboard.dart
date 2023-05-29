@@ -1,4 +1,3 @@
-// @dart=2.9
 library virtual_keyboard;
 
 import 'dart:async';

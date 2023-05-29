@@ -1,4 +1,3 @@
-// @dart=2.9
 part of virtual_keyboard;
 
 /// Keys for Virtual Keyboard's rows.

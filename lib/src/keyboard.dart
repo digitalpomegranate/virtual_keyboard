@@ -216,39 +216,33 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
 
   /// Creates default UI element for keyboard Key.
   Widget _keyboardDefaultKey(VirtualKeyboardKey key) {
-    // final String text
-
     return Expanded(
-        child: InkWell(
-      splashColor: rippleColor,
-      enableFeedback: enableFeedback,
-      customBorder: CircleBorder(),
-      onTap: () {
-        if (enableFeedback) {
-          HapticFeedback.lightImpact();
-        }
-        onKeyPress(key);
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: shadowColor,
-              blurRadius: 1,
-              blurStyle: BlurStyle.outer,
-              offset: Offset(0, 1),
-            )
-          ],
-          color: Colors.white,
-        ),
-        height: height / _keyRows.length,
-        child: Center(
-          child: Text(
-            alwaysCaps
-                ? key.capsText ?? ''
-                : (isShiftEnabled ? key.capsText : key.text) ?? '',
-            style: textStyle,
+        child: Card(
+      surfaceTintColor: Colors.white,
+      shape: CircleBorder(),
+      elevation: 2,
+      color: Colors.white,
+      child: GestureDetector(
+        // splashColor: rippleColor,
+        // enableFeedback: enableFeedback,
+        // customBorder: CircleBorder(),
+        onTap: () {
+          if (enableFeedback) {
+            HapticFeedback.lightImpact();
+          }
+          onKeyPress(key);
+        },
+        child: Container(
+          height: height / _keyRows.length,
+          // height: height/ ,
+          // padding: EdgeInsets.symmetric(horizontal: 15, vertical: 16),
+          child: Center(
+            child: Text(
+              alwaysCaps
+                  ? key.capsText ?? ''
+                  : (isShiftEnabled ? key.capsText : key.text) ?? '',
+              style: textStyle,
+            ),
           ),
         ),
       ),
@@ -265,46 +259,36 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
       case null:
       case VirtualKeyboardKeyAction.Backspace:
         actionKey = GestureDetector(
-            onLongPress: () {
-              longPress = true;
-              // Start sending backspace key events while longPress is true
-              Timer.periodic(
-                  Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud),
-                  (timer) {
-                if (longPress!) {
-                  onKeyPress(key);
-                } else {
-                  // Cancel timer.
-                  timer.cancel();
-                }
-              });
-            },
-            onLongPressUp: () {
-              // Cancel event loop
-              longPress = false;
-            },
-            child: Container(
-              height: double.infinity,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: shadowColor,
-                      blurRadius: 1,
-                      blurStyle: BlurStyle.outer,
-                      offset: Offset(0, 1),
-                    )
-                  ],
-                  color: Colors.white),
-              child: Center(
-                  child: widget.backspaceImageBuilder != null
-                      ? widget.backspaceImageBuilder(context)
-                      : Icon(
-                          Icons.backspace,
-                          color: textColor,
-                        )),
-            ));
+          onLongPress: () {
+            longPress = true;
+            // Start sending backspace key events while longPress is true
+            Timer.periodic(
+                Duration(milliseconds: _virtualKeyboardBackspaceEventPerioud),
+                (timer) {
+              if (longPress!) {
+                onKeyPress(key);
+              } else {
+                // Cancel timer.
+                timer.cancel();
+              }
+            });
+          },
+          onLongPressUp: () {
+            // Cancel event loop
+            longPress = false;
+          },
+          child: Container(
+            height: double.infinity,
+            width: double.infinity,
+            child: Center(
+                child: widget.backspaceImageBuilder != null
+                    ? widget.backspaceImageBuilder(context)
+                    : Icon(
+                        Icons.backspace,
+                        color: textColor,
+                      )),
+          ),
+        );
         break;
       case VirtualKeyboardKeyAction.Shift:
         actionKey = Icon(Icons.arrow_upward, color: textColor);
@@ -321,9 +305,9 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
     }
 
     return Expanded(
-      child: InkWell(
-        enableFeedback: enableFeedback,
-        customBorder: CircleBorder(),
+      child: GestureDetector(
+        // enableFeedback: enableFeedback,
+        // customBorder: CircleBorder(),
         onTap: () {
           if (enableFeedback) {
             HapticFeedback.lightImpact();
@@ -338,10 +322,16 @@ class _VirtualKeyboardState extends State<VirtualKeyboard> {
 
           onKeyPress(key);
         },
-        child: Container(
-          alignment: Alignment.center,
-          height: height / _keyRows.length,
-          child: actionKey,
+        child: Card(
+          surfaceTintColor: Colors.white,
+          shape: CircleBorder(),
+          elevation: 2,
+          color: Colors.white,
+          child: Container(
+            alignment: Alignment.center,
+            height: height / _keyRows.length,
+            child: actionKey,
+          ),
         ),
       ),
     );
